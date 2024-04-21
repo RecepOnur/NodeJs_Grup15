@@ -11,6 +11,12 @@ router.post("/students", async (req, res) => {
       [name, email, deptid]
     );
 
+    const studentId = result.rows[0].id;
+    await db.query(
+      "INSERT INTO ogrenci_bolum (user_id, dept_id) VALUES ($1, $2) RETURNING *",
+      [studentId, deptid]
+    );
+
     await db.query("UPDATE ogrenci_sayac SET sayac = sayac + 1");
 
     res.status(201).json({

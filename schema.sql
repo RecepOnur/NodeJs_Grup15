@@ -19,4 +19,9 @@ CREATE TABLE Ogrenci_Bolum (
     dept_id INT REFERENCES Bolum(id)
 );
 
+CREATE TABLE Ogrenci_Sayac(
+    id SERIAL PRIMARY KEY,
+    sayac INT DEFAULT 0
+)
+
 
