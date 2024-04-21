@@ -41,7 +41,7 @@ async function haftalikRapor() {
     from: "nodeprojetbtu2024@gmail.com",
     to: emailAdres,
     subject: `Haftalık Öğrenci Raporu. `,
-    text: "Haftalık öğrenci listesi ektedir.",
+    text: "Haftalık öğrenci listesi ektedir",
     attachments: [
       {
         filename: dosyaAdı,
