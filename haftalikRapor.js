@@ -59,7 +59,7 @@ async function haftalikRapor() {
   }
 }
 
-setInterval(haftalikRapor, periyot * 1000 * 10); // Her 7 günde bir çalıştır
+setInterval(haftalikRapor, periyot * 1000 * 10);
 
 module.exports = {
   haftalikRapor: haftalikRapor,
