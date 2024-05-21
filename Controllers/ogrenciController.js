@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database.js");
+const { authenticateToken } = require("./authController.js");
 
-router.post("/students", async (req, res) => {
+router.post("/students", authenticateToken, async (req, res) => {
   const { name, email, deptid } = req.body;
 
   try {
@@ -32,7 +33,7 @@ router.post("/students", async (req, res) => {
   }
 });
 
-router.delete("/students/:id", async (req, res) => {
+router.delete("/students/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -55,14 +56,14 @@ router.delete("/students/:id", async (req, res) => {
 
 module.exports = router;
 
-router.put("/students/:id", async (req, res) => {
+router.put("/students/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
-  const { name, email, deptid, counter } = req.body;
+  const { name, email, deptid } = req.body;
 
   try {
     const result = await db.query(
-      "UPDATE ogrenci SET name = $1, email = $2, deptid = $3, counter = $4 WHERE id = $5 RETURNING *",
-      [name, email, deptid, counter, id]
+      "UPDATE ogrenci SET name = $1, email = $2, deptid = $3, updated_at = CURRENT_TIMESTAMP WHERE id = $4 RETURNING *",
+      [name, email, deptid, id]
     );
     res.json({
       success: true,

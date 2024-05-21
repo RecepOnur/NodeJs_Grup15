@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../database.js");
+const { authenticateToken } = require("./authController.js");
 
-router.post("/departments", async (req, res) => {
+router.post("/departments", authenticateToken, async (req, res) => {
   const { name, dept_std_id } = req.body;
 
   try {
@@ -23,13 +24,13 @@ router.post("/departments", async (req, res) => {
   }
 });
 
-router.put("/departments/:id", async (req, res) => {
+router.put("/departments/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { name, dept_std_id } = req.body;
 
   try {
     const result = await db.query(
-      "UPDATE bolum SET name = $1, dept_std_id = $2 WHERE id = $3 RETURNING *",
+      "UPDATE bolum SET name = $1, dept_std_id = $2 , updated_At = CURRENT_TIMESTAMP WHERE id = $3 RETURNING *",
       [name, dept_std_id, id]
     );
 
@@ -45,7 +46,7 @@ router.put("/departments/:id", async (req, res) => {
   }
 });
 
-router.delete("/departments/:id", async (req, res) => {
+router.delete("/departments/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
 
   try {
